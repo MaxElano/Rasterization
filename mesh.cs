@@ -16,13 +16,17 @@ namespace Template
         int vertexBufferId;                     // vertex buffer object (VBO) for vertex data
         int triangleBufferId;                   // element buffer object (EBO) for triangle vertex indices
         int quadBufferId;                       // element buffer object (EBO) for quad vertex indices (not in Modern OpenGL)
+        internal Matrix4 modelMatrix;
+        internal Texture texture;
 
         // constructor
-        public Mesh(string filename)
+        public Mesh(string filename, Matrix4 modelMatrix, Texture texture)
         {
             this.filename = filename;
             MeshLoader loader = new();
             loader.Load(this, filename);
+            this.modelMatrix = modelMatrix;
+            this.texture = texture;
         }
 
         // initialization; called during first render
