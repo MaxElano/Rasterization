@@ -24,7 +24,7 @@ namespace INFOGR2023TemplateP2
 
     internal class Node
     {
-        Matrix4 objectToParent;
+        internal Matrix4 objectToParent;
         Mesh mesh;
         internal List<Node> children;
         bool isWorldNode;
@@ -33,7 +33,7 @@ namespace INFOGR2023TemplateP2
             children = new List<Node>();
             if (isWorldNode)
                 this.objectToParent = Matrix4.Identity;
-            else
+            else if (!(this is Light))
                 this.objectToParent = mesh.modelMatrix;
             this.mesh = mesh;
             this.isWorldNode = isWorldNode;
@@ -47,6 +47,21 @@ namespace INFOGR2023TemplateP2
                 mesh.Render(shader, objectToScreen, objectToWorld, mesh.texture);
             foreach (Node child in children)
                 child.Render(worldToScreen, objectToWorld, shader);
+        }
+
+        internal void AddChild(Node child)
+        {
+            children.Add(child);
+        }
+    }
+
+    internal class Light : Node
+    {
+        Vector3 color;
+        internal Light(Vector3 color, Matrix4 objectToParent, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
+        {
+            this.color = color;
+            this.objectToParent = objectToParent;
         }
     }
 

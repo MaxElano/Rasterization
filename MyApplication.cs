@@ -89,7 +89,7 @@ namespace Template
                 target.Bind();
 
                 // render scene to render target
-                if (shader != null && wood != null)
+                if (shader != null /*&& wood != null*/)
                 {
                     worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader);
                     //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
@@ -104,7 +104,7 @@ namespace Template
             else
             {
                 // render scene directly to the screen
-                if (shader != null && wood != null)
+                if (shader != null /*&& wood != null*/)
                 {
                     worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader);
                     //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood);
