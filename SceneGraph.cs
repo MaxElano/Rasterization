@@ -22,7 +22,7 @@ namespace INFOGR2023TemplateP2
     //3.Add a Render method for the Scene Graph that recursively processes the nodes in the tree, while combining matrices so that each mesh is drawn using the correct combined matrix.
     //4.Call the Render method of the Scene Graph from the Game class, using a camera matrix that is updated based on user input.
 
-    internal class Node
+    public class Node
     {
         internal Matrix4 objectToParent;
         Mesh mesh;
@@ -44,7 +44,7 @@ namespace INFOGR2023TemplateP2
         {
             Matrix4 objectToWorld = objectToParent * parentToWorld;
             Matrix4 objectToScreen = objectToWorld * worldToScreen; //object to world and world to screen
-            if(!isWorldNode && mesh.texture != null)
+            if(!isWorldNode && mesh != null && mesh.texture != null)
                 mesh.Render(shader, objectToScreen, objectToWorld, mesh.texture, lights, cameraPosition);
             foreach (Node child in children)
                 child.Render(worldToScreen, objectToWorld, shader, lights, cameraPosition);
@@ -57,7 +57,7 @@ namespace INFOGR2023TemplateP2
         }
     }
 
-    internal class Light : Node
+    public class Light : Node
     {
         internal Vector3 color;
         internal Vector3 objectToWorld;

@@ -22,7 +22,7 @@ namespace Template
         Node worldNode;
         Camera camera;
         GameWindow window;
-        internal List<Light> lights;
+        public List<Light> lights;
 
         // constructor
         public MyApplication(Surface screen, OpenTKApp window)
@@ -105,7 +105,7 @@ namespace Template
                 // render scene to render target
                 if (shader != null /*&& wood != null*/)
                 {
-                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights, );
+                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights, camera.location);
                     //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
                     //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
@@ -120,7 +120,7 @@ namespace Template
                 // render scene directly to the screen
                 if (shader != null /*&& wood != null*/)
                 {
-                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights);
+                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights, camera.location);
                     //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
                     //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }

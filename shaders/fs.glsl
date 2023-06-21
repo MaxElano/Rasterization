@@ -6,11 +6,11 @@ in vec4 normalWorld;                // fragment normal in World Space
 in vec2 uv;                         // fragment uv texture coordinates
 uniform sampler2D diffuseTexture;	// texture sampler
 
-uniform vec3 lightPosition = vec3(10, 10, 10);
-uniform vec3 lightColor = vec3(255, 255, 255);
+uniform vec3 lightPosition;
+uniform vec3 lightColor;
 //uniform vec3 ambientColor; 
 uniform vec3 ambientLight = lightColor * 0.1;
-uniform vec3 cameraPositionWorld = vec3(20, 20, 20);
+uniform vec3 cameraPositionWorld;
 
 // shader output
 out vec4 outputColor;
