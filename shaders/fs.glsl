@@ -9,7 +9,7 @@ uniform sampler2D diffuseTexture;	// texture sampler
 uniform vec3 lightPosition = vec3(10, 10, 10);
 uniform vec3 lightColor = vec3(255, 255, 255);
 //uniform vec3 ambientColor; 
-uniform vec3 ambientLight = vec3(10, 10, 10);
+uniform vec3 ambientLight = lightColor * 0.1;
 uniform vec3 cameraPositionWorld = vec3(20, 20, 20);
 
 // shader output

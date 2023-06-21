@@ -13,6 +13,10 @@ namespace Template
         public int in_vertexUV;
         public int uniform_objectToScreen;
         public int uniform_objectToWorld;
+        public int uniform_lightPosition;
+        public int uniform_lightColor;
+        public int uniform_cameraPosition;
+
 
         // constructor
         public Shader(string vertexShader, string fragmentShader)
@@ -32,6 +36,9 @@ namespace Template
             in_vertexUV = GL.GetAttribLocation(programID, "vertexUV");
             uniform_objectToScreen = GL.GetUniformLocation(programID, "objectToScreen");
             uniform_objectToWorld = GL.GetUniformLocation(programID, "objectToWorld");
+            uniform_lightPosition = GL.GetUniformLocation(programID, "lightPosition");
+            uniform_lightColor = GL.GetUniformLocation(programID, "lightColor");
+            uniform_cameraPosition = GL.GetUniformLocation(programID, "cameraPosition");
         }
 
         // loading shaders

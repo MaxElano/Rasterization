@@ -19,12 +19,14 @@ namespace Template
         readonly bool useRenderTarget = true;   // required for post processing
         Node worldNode;
         Camera camera;
+        internal List<Light> lights;
 
         // constructor
         public MyApplication(Surface screen)
         {
             this.screen = screen;
             worldNode = new Node(null, true);
+            lights= new List<Light>();
         }
         // initialize
         public void Init()
@@ -53,6 +55,7 @@ namespace Template
 
             worldNode.children.Add(new Node(teapot));
             worldNode.children.Add(new Node(floor));
+            worldNode.children.Add(new Light(new Vector3(1, 1, 1), new Matrix4(1, 0, 0, 3, 0, 1, 0, 3, 0, 0, 1, 3, 0, 0, 0, 1), lights));
         }
 
         // tick for background surface
@@ -91,7 +94,7 @@ namespace Template
                 // render scene to render target
                 if (shader != null /*&& wood != null*/)
                 {
-                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader);
+                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights, );
                     //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
                     //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
@@ -106,9 +109,9 @@ namespace Template
                 // render scene directly to the screen
                 if (shader != null /*&& wood != null*/)
                 {
-                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader);
-                    //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood);
-                    //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood);
+                    worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights);
+                    //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
+                    //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
             }
         }

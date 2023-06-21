@@ -28,6 +28,7 @@ namespace INFOGR2023TemplateP2
         Mesh mesh;
         internal List<Node> children;
         bool isWorldNode;
+        internal Node parent;
         internal Node(Mesh mesh = null, bool isWorldNode = false)
         {
             children = new List<Node>();
@@ -39,29 +40,45 @@ namespace INFOGR2023TemplateP2
             this.isWorldNode = isWorldNode;
         }
         
-        internal void Render(Matrix4 worldToScreen, Matrix4 parentToWorld, Shader shader)
+        internal void Render(Matrix4 worldToScreen, Matrix4 parentToWorld, Shader shader, List<Light> lights)
         {
             Matrix4 objectToWorld = objectToParent * parentToWorld;
             Matrix4 objectToScreen = objectToWorld * worldToScreen; //object to world and world to screen
             if(!isWorldNode && mesh.texture != null)
-                mesh.Render(shader, objectToScreen, objectToWorld, mesh.texture);
+                mesh.Render(shader, objectToScreen, objectToWorld, mesh.texture, lights);
             foreach (Node child in children)
-                child.Render(worldToScreen, objectToWorld, shader);
+                child.Render(worldToScreen, objectToWorld, shader, lights);
         }
 
         internal void AddChild(Node child)
         {
+            child.parent = this;
             children.Add(child);
         }
     }
 
     internal class Light : Node
     {
-        Vector3 color;
-        internal Light(Vector3 color, Matrix4 objectToParent, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
+        internal Vector3 color;
+        internal Vector3 objectToWorld;
+        internal Light(Vector3 color, Matrix4 objectToParent, List<Light> list, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
         {
+            list.Add(this);
             this.color = color;
             this.objectToParent = objectToParent;
+            //Matrix4 tempMatrix = ObjectFromParentToWorld(objectToParent);
+            //this.objectToWorld = new Vector3()
+        }
+        internal Matrix4 ObjectFromParentToWorld()
+        {
+            Matrix4 finalMatrix = objectToParent;
+            Node tempNode = this;
+            while (tempNode.parent != null)
+            {
+                finalMatrix = tempNode.parent.objectToParent * finalMatrix;
+                tempNode = tempNode.parent;
+            }
+            return finalMatrix;
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using INFOGR2023TemplateP2;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
@@ -58,7 +59,7 @@ namespace Template
         }
 
         // render the mesh using the supplied shader and matrix
-        public void Render(Shader shader, Matrix4 objectToScreen, Matrix4 objectToWorld, Texture texture)
+        public void Render(Shader shader, Matrix4 objectToScreen, Matrix4 objectToWorld, Texture texture, List<Light> lights)
         {
             // on first run, prepare buffers
             Prepare();
@@ -76,6 +77,10 @@ namespace Template
             // pass transforms to vertex shader
             GL.UniformMatrix4(shader.uniform_objectToScreen, false, ref objectToScreen);
             GL.UniformMatrix4(shader.uniform_objectToWorld, false, ref objectToWorld);
+
+            GL.Uniform3(shader.uniform_lightPosition, ref lights[0].objectToWorld);
+            GL.Uniform3(shader.uniform_lightColor, ref lights[0].color);
+            GL
 
             // enable position, normal and uv attribute arrays corresponding to the shader "in" variables
             GL.EnableVertexAttribArray(shader.in_vertexPositionObject);
