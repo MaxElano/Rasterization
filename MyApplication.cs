@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using INFOGR2023TemplateP2;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Template
 {
@@ -19,12 +21,16 @@ namespace Template
         readonly bool useRenderTarget = true;   // required for post processing
         Node worldNode;
         Camera camera;
+        GameWindow window;
 
         // constructor
-        public MyApplication(Surface screen)
+        public MyApplication(Surface screen, OpenTKApp window)
         {
             this.screen = screen;
             worldNode = new Node(null, true);
+
+            camera = new Camera();
+            this.window = window;
         }
         // initialize
         public void Init()
@@ -60,6 +66,9 @@ namespace Template
         {
             screen.Clear(0);
             screen.Print("hello world", 2, 2, 0xffff00);
+
+            //Update Camera position and angle
+            camera.Update(window);
         }
 
         // tick for OpenGL rendering code
@@ -71,11 +80,13 @@ namespace Template
             timer.Start();
 
             // prepare matrix for vertex shader
-            float angle90degrees = MathF.PI / 2;
+
             //Matrix4 teapotObjectToWorld = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a); OLD
             //Matrix4 floorObjectToWorld = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);  OLD
-            Matrix4 worldToCamera = Matrix4.CreateTranslation(new Vector3(0, -14.5f, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), angle90degrees);
-            Matrix4 cameraToScreen = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(60.0f), (float)screen.width/screen.height, .1f, 1000);
+
+            Matrix4 worldToCamera = Matrix4.CreateTranslation(camera.location) * (Matrix4.CreateFromAxisAngle(camera.Y, camera.Pitch) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), camera.Yaw));
+
+            Matrix4 cameraToScreen = Matrix4.CreatePerspectiveFieldOfView(camera.FOV, (float)screen.width/screen.height, .1f, 1000);
 
             
 
