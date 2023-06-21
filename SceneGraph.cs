@@ -40,14 +40,14 @@ namespace INFOGR2023TemplateP2
             this.isWorldNode = isWorldNode;
         }
         
-        internal void Render(Matrix4 worldToScreen, Matrix4 parentToWorld, Shader shader, List<Light> lights)
+        internal void Render(Matrix4 worldToScreen, Matrix4 parentToWorld, Shader shader, List<Light> lights, Vector3 cameraPosition)
         {
             Matrix4 objectToWorld = objectToParent * parentToWorld;
             Matrix4 objectToScreen = objectToWorld * worldToScreen; //object to world and world to screen
             if(!isWorldNode && mesh.texture != null)
-                mesh.Render(shader, objectToScreen, objectToWorld, mesh.texture, lights);
+                mesh.Render(shader, objectToScreen, objectToWorld, mesh.texture, lights, cameraPosition);
             foreach (Node child in children)
-                child.Render(worldToScreen, objectToWorld, shader, lights);
+                child.Render(worldToScreen, objectToWorld, shader, lights, cameraPosition);
         }
 
         internal void AddChild(Node child)

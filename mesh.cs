@@ -59,7 +59,7 @@ namespace Template
         }
 
         // render the mesh using the supplied shader and matrix
-        public void Render(Shader shader, Matrix4 objectToScreen, Matrix4 objectToWorld, Texture texture, List<Light> lights)
+        public void Render(Shader shader, Matrix4 objectToScreen, Matrix4 objectToWorld, Texture texture, List<Light> lights, Vector3 cameraPosition)
         {
             // on first run, prepare buffers
             Prepare();
@@ -80,7 +80,7 @@ namespace Template
 
             GL.Uniform3(shader.uniform_lightPosition, ref lights[0].objectToWorld);
             GL.Uniform3(shader.uniform_lightColor, ref lights[0].color);
-            GL
+            GL.Uniform3(shader.uniform_cameraPosition, ref cameraPosition);
 
             // enable position, normal and uv attribute arrays corresponding to the shader "in" variables
             GL.EnableVertexAttribArray(shader.in_vertexPositionObject);
