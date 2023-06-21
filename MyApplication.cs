@@ -84,7 +84,7 @@ namespace Template
             //Matrix4 teapotObjectToWorld = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a); OLD
             //Matrix4 floorObjectToWorld = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);  OLD
 
-            Matrix4 worldToCamera = Matrix4.CreateTranslation(new Vector3(0, -4f, -2)) * (Matrix4.CreateFromAxisAngle(camera.X, camera.Pitch) * Matrix4.CreateFromAxisAngle(camera.Y, camera.Yaw) * Matrix4.CreateFromAxisAngle(camera.Z, camera.Roll));
+            Matrix4 worldToCamera = Matrix4.CreateTranslation(camera.location) * (Matrix4.CreateFromAxisAngle(camera.Y, camera.Pitch) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), camera.Yaw));
 
             Matrix4 cameraToScreen = Matrix4.CreatePerspectiveFieldOfView(camera.FOV, (float)screen.width/screen.height, .1f, 1000);
 

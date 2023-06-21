@@ -13,81 +13,108 @@ namespace INFOGR2023TemplateP2
     {
         Matrix4 modelMatrix;
 
-        public Vector3 X;
+        public Vector3 location;
+
         public Vector3 Y;
-        public Vector3 Z;
+
+        float camSpeed = 1;
 
         // test yaw pithc and roll
-        float yaw = 90;
-        float pitch = 45;
-        float roll = 0;
-        float FieldOfView = 60;
+        public float yaw = 0;
+        public float pitch = 90;
+        public float FieldOfView = 60;
 
         public float Yaw { get { return MathHelper.DegreesToRadians(yaw); } }
         public float Pitch { get { return MathHelper.DegreesToRadians(pitch); } }
-        public float Roll { get { return MathHelper.DegreesToRadians(roll); } }
         public float FOV { get { return MathHelper.DegreesToRadians(FieldOfView); } }
 
 
         internal Camera()
         {
-            X = new Vector3(1, 0, 0);
-            Y = new Vector3(0, 1, 0);
-            Z = new Vector3(0, 0, 1);
+            location = new Vector3(0, -14.5f, 0);
         }
 
         public void Update(GameWindow window)
         {
-            float oldyaw = yaw;
-            float oldpitch = pitch;
-            float oldroll = roll;
+            Rotation(window);
 
-            if(window.IsKeyDown(Keys.A))
+            Movement(window);
+        }
+
+        public void Rotation(GameWindow window)
+        {
+            if (window.IsKeyDown(Keys.Left))
             {
                 yaw -= 2;
-                if (yaw < 0)
-                    yaw = 360;
+                if (yaw < -180)
+                    yaw = 180;
             }
-            if (window.IsKeyDown(Keys.D))
+            if (window.IsKeyDown(Keys.Right))
             {
                 yaw += 2;
-                if (yaw > 360)
-                    yaw = 0;
+                if (yaw > 180)
+                    yaw = -180;
             }
-            if (window.IsKeyDown(Keys.S))
+            if (window.IsKeyDown(Keys.Down))
             {
                 pitch += 2;
                 if (pitch > 360)
                     pitch = 0;
             }
-            if (window.IsKeyDown(Keys.W))
+            if (window.IsKeyDown(Keys.Up))
             {
                 pitch -= 2;
                 if (pitch < 0)
                     pitch = 360;
             }
-            if (window.IsKeyDown(Keys.Q))
+
+            float Yx = 0;
+            float Yz = 0;
+
+            if (Math.Abs(yaw) <= 90)
             {
-                roll -= 2;
-                if (roll < 0)
-                    roll = 360;
+                Yx = 1 - ((Math.Abs(yaw)) / 90);
+                Yz = ((Math.Abs(yaw)) / 90);
             }
-            if (window.IsKeyDown(Keys.E))
+            else if (Math.Abs(yaw) > 90)
             {
-                roll += 2;
-                if (roll > 360)
-                    roll = 0;
+                Yx = 1 - ((Math.Abs(90 - (Math.Abs(yaw) - 90))) / 90);
+                Yz = ((Math.Abs(90 - (Math.Abs(yaw) - 90))) / 90);
+            }
+            if (yaw < 0)
+            {
+                Yz = -Yz;
+            }
+            if (Math.Abs(yaw) > 90)
+            {
+                Yx = -Yx;
             }
 
-            if(oldyaw != yaw) 
-            {
-                oldyaw = yaw;
-                Quaternion Q = new Quaternion(yaw, 0, 0);
-                Y = Vector3.Transform(Y, Q);
-                Q = new Quaternion(0, pitch, 0);
-                Y = Vector3.Transform(Y, Q);
-            }
+            Y = new Vector3(Yx, 0, Yz);
         }
 
+        public void Movement(GameWindow window)
+        {
+            if (window.IsKeyDown(Keys.A))
+            {
+                Vector3 M = new Vector3(camSpeed * (float)Math.Cos(Yaw), 0, camSpeed * (float)Math.Sin(Yaw));
+                location += M;
+            }
+            if (window.IsKeyDown(Keys.D))
+            {
+                Vector3 M = new Vector3(camSpeed * (float)Math.Cos(Yaw), 0, camSpeed * (float)Math.Sin(Yaw));
+                location -= M;
+            }
+            if (window.IsKeyDown(Keys.W))
+            {
+                Vector3 M = new Vector3(camSpeed * (float)Math.Sin(-Yaw), 0, camSpeed * (float)Math.Cos(-Yaw));
+                location += M;
+            }
+            if (window.IsKeyDown(Keys.S))
+            {
+                Vector3 M = new Vector3(camSpeed * (float)Math.Sin(-Yaw), 0, camSpeed * (float)Math.Cos(-Yaw));
+                location -= M;
+            }
+        }
     }
 }
