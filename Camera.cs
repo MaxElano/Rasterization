@@ -115,6 +115,14 @@ namespace INFOGR2023TemplateP2
                 Vector3 M = new Vector3(camSpeed * (float)Math.Sin(-Yaw), 0, camSpeed * (float)Math.Cos(-Yaw));
                 location -= M;
             }
+            if (window.IsKeyDown(Keys.Q))
+            {
+                location.Y += camSpeed;
+            }
+            if (window.IsKeyDown(Keys.E))
+            {
+                location.Y -= camSpeed;
+            }
         }
     }
 }
