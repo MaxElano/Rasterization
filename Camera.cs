@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using OpenTK.Graphics.ES11;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
@@ -15,13 +16,15 @@ namespace INFOGR2023TemplateP2
 
         public Vector3 location;
 
-        public Vector3 Y;
+        public Vector3 X = new Vector3(1, 0, 0);
+        public Vector3 Y = new Vector3(0, 1, 0);
+        public Vector3 Z = new Vector3(0, 0, 1);
 
         float camSpeed = 1;
 
         // test yaw pithc and roll
         public float yaw = 0;
-        public float pitch = 90;
+        public float pitch = 90f;
         public float FieldOfView = 60;
 
         public float Yaw { get { return MathHelper.DegreesToRadians(yaw); } }
@@ -31,7 +34,7 @@ namespace INFOGR2023TemplateP2
 
         internal Camera()
         {
-            location = new Vector3(0, -14.5f, 0);
+            location = new Vector3(0, -6f, -3f);
         }
 
         public void Update(GameWindow window)
@@ -43,6 +46,7 @@ namespace INFOGR2023TemplateP2
 
         public void Rotation(GameWindow window)
         {
+            
             if (window.IsKeyDown(Keys.Left))
             {
                 yaw -= 2;
@@ -95,25 +99,34 @@ namespace INFOGR2023TemplateP2
 
         public void Movement(GameWindow window)
         {
+            Quaternion qPitch = new Quaternion(-Pitch, 0, 0);
+            Quaternion qYaw = new Quaternion(0, -Yaw, 0);
+
+            Vector3 Left = Vector3.Transform(X, qPitch);
+            Left = Vector3.Transform(Left, qYaw);
+            Vector3 Forward = Vector3.Transform(Z, qPitch);
+            Forward = Vector3.Transform(Forward, qYaw);
+
+            Left.Normalize();
+            Forward.Normalize();
+
+            //Console.WriteLine(Forward.ToString());
+
             if (window.IsKeyDown(Keys.A))
             {
-                Vector3 M = new Vector3(camSpeed * (float)Math.Cos(Yaw), 0, camSpeed * (float)Math.Sin(Yaw));
-                location += M;
+                location += Left;
             }
             if (window.IsKeyDown(Keys.D))
             {
-                Vector3 M = new Vector3(camSpeed * (float)Math.Cos(Yaw), 0, camSpeed * (float)Math.Sin(Yaw));
-                location -= M;
+                location -= Left;
             }
             if (window.IsKeyDown(Keys.W))
             {
-                Vector3 M = new Vector3(camSpeed * (float)Math.Sin(-Yaw), 0, camSpeed * (float)Math.Cos(-Yaw));
-                location += M;
+                location += Forward;
             }
             if (window.IsKeyDown(Keys.S))
             {
-                Vector3 M = new Vector3(camSpeed * (float)Math.Sin(-Yaw), 0, camSpeed * (float)Math.Cos(-Yaw));
-                location -= M;
+                location -= Forward;
             }
             if (window.IsKeyDown(Keys.Q))
             {
