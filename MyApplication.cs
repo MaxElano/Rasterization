@@ -63,7 +63,6 @@ namespace Template
             worldNode.children.Add(new Node(floor));
             worldNode.children.Add(new Light(new Vector3(0, 0, 20), new Vector3(10, 10, 10), lights));
             worldNode.children.Add(new Light(new Vector3(20, 0, 0), new Vector3(10, 10, -10), lights));
-
         }
 
         // tick for background surface
