@@ -114,19 +114,19 @@ namespace INFOGR2023TemplateP2
 
             if (window.IsKeyDown(Keys.A))
             {
-                location += Left;
+                location += Left * camSpeed;
             }
             if (window.IsKeyDown(Keys.D))
             {
-                location -= Left;
+                location -= Left * camSpeed;
             }
             if (window.IsKeyDown(Keys.W))
             {
-                location += Forward;
+                location += Forward * camSpeed;
             }
             if (window.IsKeyDown(Keys.S))
             {
-                location -= Forward;
+                location -= Forward * camSpeed;
             }
             if (window.IsKeyDown(Keys.Q))
             {
