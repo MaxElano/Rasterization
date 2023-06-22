@@ -60,12 +60,12 @@ namespace INFOGR2023TemplateP2
     public class Light : Node
     {
         internal Vector3 color;
-        internal Vector3 location;
-        internal Light(Vector3 color, Matrix4 objectToParent, List<Light> list, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
+        internal Vector4 location;
+        internal Light(Vector3 color, Vector3 location, List<Light> list, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
         {
             list.Add(this);
             this.color = color;
-            this.objectToParent = objectToParent;
+            this.location = new Vector4(location.X, location.Y, location.Z, 0);
         }
         internal void SetLocation()
         {
@@ -76,7 +76,7 @@ namespace INFOGR2023TemplateP2
                 finalMatrix = tempNode.parent.objectToParent * finalMatrix;
                 tempNode = tempNode.parent;
             }
-            location = finalMatrix.ExtractTranslation();
+            location = finalMatrix * location;
         }
     }
 

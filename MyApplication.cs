@@ -61,8 +61,9 @@ namespace Template
 
             worldNode.children.Add(new Node(teapot));
             worldNode.children.Add(new Node(floor));
-            //worldNode.children.Add(new Light(new Vector3(2, 2, 2), new Matrix4(1, 0, 0, 10, 0, 1, 0, 10, 0, 0, 1, 10, 0, 0, 0, 1), lights));
-            worldNode.children.Add(new Light(new Vector3(200, 200, 200), new Matrix4(1, 0, 0, -40, 0, 1, 0, -40, 0, 0, 1, 40, 0, 0, 0, 1), lights));
+            worldNode.children.Add(new Light(new Vector3(0, 0, 20), new Vector3(10, 10, 10), lights));
+            worldNode.children.Add(new Light(new Vector3(20, 0, 0), new Vector3(10, 10, -10), lights));
+
         }
 
         // tick for background surface

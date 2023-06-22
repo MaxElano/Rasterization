@@ -19,7 +19,9 @@ namespace Template
         int quadBufferId;                       // element buffer object (EBO) for quad vertex indices (not in Modern OpenGL)
         internal Matrix4 modelMatrix;
         internal Texture texture;
-        Vector3 nullVector = new Vector3(0, 0, 0);
+        Vector3 nullVector3 = new Vector3(0, 0, 0);
+        Vector4 nullVector4 = new Vector4(0, 0, 0, 0);
+        Vector4 light1Location, light2Location, light3Location, light4Location;
         // constructor
         public Mesh(string filename, Matrix4 modelMatrix, Texture texture)
         {
@@ -80,47 +82,49 @@ namespace Template
 
             GL.Uniform3(shader.uniform_cameraPosition, ref cameraPosition);
 
-            foreach (Light light in lights)
-                light.SetLocation();
             if (lights.Count > 0)
             {
-                GL.Uniform3(shader.uniform_lightPosition1, ref lights[0].location);
+                light1Location = (objectToWorld * lights[0].location);
+                GL.Uniform4(shader.uniform_lightPosition1, ref light1Location);
                 GL.Uniform3(shader.uniform_lightColor1, ref lights[0].color);
             }
             else
             {
-                GL.Uniform3(shader.uniform_lightPosition1, ref nullVector);
-                GL.Uniform3(shader.uniform_lightColor1, ref nullVector);
+                GL.Uniform4(shader.uniform_lightPosition1, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor1, ref nullVector3);
             }
             if (lights.Count > 1)
             {
-                GL.Uniform3(shader.uniform_lightPosition2, ref lights[1].location);
+                light2Location = (objectToWorld * lights[1].location);
+                GL.Uniform4(shader.uniform_lightPosition2, ref light2Location);
                 GL.Uniform3(shader.uniform_lightColor2, ref lights[1].color);
             }
             else
             {
-                GL.Uniform3(shader.uniform_lightPosition2, ref nullVector);
-                GL.Uniform3(shader.uniform_lightColor2, ref nullVector);
+                GL.Uniform4(shader.uniform_lightPosition2, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor2, ref nullVector3);
             }
             if (lights.Count > 2)
             {
-                GL.Uniform3(shader.uniform_lightPosition3, ref lights[2].location);
+                light3Location = (objectToWorld * lights[2].location);
+                GL.Uniform4(shader.uniform_lightPosition3, ref light3Location);
                 GL.Uniform3(shader.uniform_lightColor3, ref lights[2].color);
             }
             else
             {
-                GL.Uniform3(shader.uniform_lightPosition3, ref nullVector);
-                GL.Uniform3(shader.uniform_lightColor3, ref nullVector);
+                GL.Uniform4(shader.uniform_lightPosition3, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor3, ref nullVector3);
             }
             if (lights.Count > 3)
             {
-                GL.Uniform3(shader.uniform_lightPosition4, ref lights[3].location);
+                light4Location = (objectToWorld * lights[3].location);
+                GL.Uniform4(shader.uniform_lightPosition4, ref light4Location);
                 GL.Uniform3(shader.uniform_lightColor4, ref lights[3].color);
             }
             else
             {
-                GL.Uniform3(shader.uniform_lightPosition4, ref nullVector);
-                GL.Uniform3(shader.uniform_lightColor4, ref nullVector);
+                GL.Uniform4(shader.uniform_lightPosition4, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor4, ref nullVector3);
             }
 
 

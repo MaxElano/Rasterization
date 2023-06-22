@@ -6,16 +6,16 @@ in vec4 normalWorld;                // fragment normal in World Space
 in vec2 uv;                         // fragment uv texture coordinates
 uniform sampler2D diffuseTexture;	// texture sampler
 
-uniform vec3 lightPosition1;
+uniform vec4 lightPosition1;
 uniform vec3 lightColor1;
 
-uniform vec3 lightPosition2;
+uniform vec4 lightPosition2;
 uniform vec3 lightColor2;
 
-uniform vec3 lightPosition3;
+uniform vec4 lightPosition3;
 uniform vec3 lightColor3;
 
-uniform vec3 lightPosition4;
+uniform vec4 lightPosition4;
 uniform vec3 lightColor4;
 
 //uniform vec3 ambientColor;  
@@ -38,7 +38,7 @@ void main()
     
     //PHONG
     outputColor.xyz = vec3(0, 0, 0);
-    int n = 200;
+    int n = 20;
     vec3 speculalColor = vec3(0.8, 0.8, 0.8);
 
     vec3 diffuseColor = texture(diffuseTexture, uv).rgb;                        //texture lookup
@@ -53,25 +53,25 @@ void main()
         lightColor = vec3(0, 0, 0);
         if(i == 1 && lightColor1 != vec3(0, 0, 0))
         {
-            lightPosition = lightPosition1;
+            lightPosition = lightPosition1.xyz;
             lightColor = lightColor1;
             ambientCounter++;
         }
         else if(i == 2 && lightColor2 != vec3(0, 0, 0))
         {
-            lightPosition = lightPosition2;
+            lightPosition = lightPosition2.xyz;
             lightColor = lightColor2;
             ambientCounter++;
         }
         else if(i == 3 && lightColor3 != vec3(0, 0, 0))
         {
-            lightPosition = lightPosition3;
+            lightPosition = lightPosition3.xyz;
             lightColor = lightColor3;
             ambientCounter++;
         }
         else if(i == 4 && lightColor4 != vec3(0, 0, 0))
         {
-            lightPosition = lightPosition4;
+            lightPosition = lightPosition4.xyz;
             lightColor = lightColor4;
             ambientCounter++;
         }
@@ -92,12 +92,14 @@ void main()
             outputColor.xyz += a * (b + c);
         }
     }
-    vec3 ambientLightFinal;
+    vec3 d;
     if(ambientCounter > 0)
     {
-        ambientLightFinal = (ambientLight / ambientCounter) * 0.00000001;
+        vec3 ambientLightFinal = (ambientLight / ambientCounter) * 0.00000001;
+        d = ambientLightFinal * diffuseColor;
     }
-    vec3 d = ambientLightFinal * diffuseColor;
+    else
+        d = vec3(0, 0, 0);
 
 
     outputColor.xyz += d;
