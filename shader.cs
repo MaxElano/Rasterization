@@ -13,9 +13,16 @@ namespace Template
         public int in_vertexUV;
         public int uniform_objectToScreen;
         public int uniform_objectToWorld;
-        public int uniform_lightPosition;
-        public int uniform_lightColor;
         public int uniform_cameraPosition;
+        public int uniform_lightPosition1;
+        public int uniform_lightColor1;
+        public int uniform_lightPosition2;
+        public int uniform_lightColor2;
+        public int uniform_lightPosition3;
+        public int uniform_lightColor3;
+        public int uniform_lightPosition4;
+        public int uniform_lightColor4;
+
 
 
         // constructor
@@ -36,9 +43,16 @@ namespace Template
             in_vertexUV = GL.GetAttribLocation(programID, "vertexUV");
             uniform_objectToScreen = GL.GetUniformLocation(programID, "objectToScreen");
             uniform_objectToWorld = GL.GetUniformLocation(programID, "objectToWorld");
-            uniform_lightPosition = GL.GetUniformLocation(programID, "lightPosition");
-            uniform_lightColor = GL.GetUniformLocation(programID, "lightColor");
             uniform_cameraPosition = GL.GetUniformLocation(programID, "cameraPosition");
+            uniform_lightPosition1 = GL.GetUniformLocation(programID, "lightPosition1");
+            uniform_lightColor1 = GL.GetUniformLocation(programID, "lightColor1");
+            uniform_lightPosition2 = GL.GetUniformLocation(programID, "lightPosition2");
+            uniform_lightColor2 = GL.GetUniformLocation(programID, "lightColor2");
+            uniform_lightPosition3 = GL.GetUniformLocation(programID, "lightPosition3");
+            uniform_lightColor3 = GL.GetUniformLocation(programID, "lightColor3");
+            uniform_lightPosition4 = GL.GetUniformLocation(programID, "lightPosition4");
+            uniform_lightColor4 = GL.GetUniformLocation(programID, "lightColor4");
+
         }
 
         // loading shaders
