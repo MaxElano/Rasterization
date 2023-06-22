@@ -19,7 +19,9 @@ namespace Template
         int quadBufferId;                       // element buffer object (EBO) for quad vertex indices (not in Modern OpenGL)
         internal Matrix4 modelMatrix;
         internal Texture texture;
-
+        Vector3 nullVector3 = new Vector3(0, 0, 0);
+        Vector4 nullVector4 = new Vector4(0, 0, 0, 0);
+        Vector4 light1Location, light2Location, light3Location, light4Location;
         // constructor
         public Mesh(string filename, Matrix4 modelMatrix, Texture texture)
         {
@@ -78,9 +80,53 @@ namespace Template
             GL.UniformMatrix4(shader.uniform_objectToScreen, false, ref objectToScreen);
             GL.UniformMatrix4(shader.uniform_objectToWorld, false, ref objectToWorld);
 
-            GL.Uniform3(shader.uniform_lightPosition, ref lights[0].objectToWorld);
-            GL.Uniform3(shader.uniform_lightColor, ref lights[0].color);
             GL.Uniform3(shader.uniform_cameraPosition, ref cameraPosition);
+
+            if (lights.Count > 0)
+            {
+                light1Location = (objectToWorld * lights[0].location);
+                GL.Uniform4(shader.uniform_lightPosition1, ref light1Location);
+                GL.Uniform3(shader.uniform_lightColor1, ref lights[0].color);
+            }
+            else
+            {
+                GL.Uniform4(shader.uniform_lightPosition1, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor1, ref nullVector3);
+            }
+            if (lights.Count > 1)
+            {
+                light2Location = (objectToWorld * lights[1].location);
+                GL.Uniform4(shader.uniform_lightPosition2, ref light2Location);
+                GL.Uniform3(shader.uniform_lightColor2, ref lights[1].color);
+            }
+            else
+            {
+                GL.Uniform4(shader.uniform_lightPosition2, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor2, ref nullVector3);
+            }
+            if (lights.Count > 2)
+            {
+                light3Location = (objectToWorld * lights[2].location);
+                GL.Uniform4(shader.uniform_lightPosition3, ref light3Location);
+                GL.Uniform3(shader.uniform_lightColor3, ref lights[2].color);
+            }
+            else
+            {
+                GL.Uniform4(shader.uniform_lightPosition3, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor3, ref nullVector3);
+            }
+            if (lights.Count > 3)
+            {
+                light4Location = (objectToWorld * lights[3].location);
+                GL.Uniform4(shader.uniform_lightPosition4, ref light4Location);
+                GL.Uniform3(shader.uniform_lightColor4, ref lights[3].color);
+            }
+            else
+            {
+                GL.Uniform4(shader.uniform_lightPosition4, ref nullVector4);
+                GL.Uniform3(shader.uniform_lightColor4, ref nullVector3);
+            }
+
 
             // enable position, normal and uv attribute arrays corresponding to the shader "in" variables
             GL.EnableVertexAttribArray(shader.in_vertexPositionObject);

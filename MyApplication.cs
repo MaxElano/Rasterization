@@ -58,10 +58,11 @@ namespace Template
             if (useRenderTarget) target = new RenderTarget(screen.width, screen.height);
             quad = new ScreenQuad();
 
-
             worldNode.children.Add(new Node(teapot));
             worldNode.children.Add(new Node(floor));
-            worldNode.children.Add(new Light(new Vector3(150, 150, 150), new Matrix4(1, 0, 0, 10, 0, 1, 0, 10, 0, 0, 1, 10, 0, 0, 0, 1), lights));
+            worldNode.children.Add(new Light(new Vector3(0, 0, 20), new Vector3(10, 1, 10), lights));
+            worldNode.children.Add(new Light(new Vector3(20, 0, 0), new Vector3(10, 1, -10), lights));
+            worldNode.children.Add(new Light(new Vector3(0, 20, 0), new Vector3(-10, 1, 0), lights));
         }
 
         // tick for background surface
