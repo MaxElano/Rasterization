@@ -38,7 +38,7 @@ void main()
     
     //PHONG
     outputColor.xyz = vec3(0, 0, 0);
-    int n = 20;
+    int n = 2;
     vec3 speculalColor = vec3(0.8, 0.8, 0.8);
 
     vec3 diffuseColor = texture(diffuseTexture, uv).rgb;                        //texture lookup
@@ -95,7 +95,7 @@ void main()
     vec3 d;
     if(ambientCounter > 0)
     {
-        vec3 ambientLightFinal = (ambientLight / ambientCounter) * 0.00000001;
+        vec3 ambientLightFinal = (ambientLight / ambientCounter) * 0.006;
         d = ambientLightFinal * diffuseColor;
     }
     else
