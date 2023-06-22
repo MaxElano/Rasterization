@@ -67,9 +67,9 @@ namespace INFOGR2023TemplateP2
             this.color = color;
             this.objectToParent = objectToParent;
             //Matrix4 tempMatrix = ObjectFromParentToWorld(objectToParent);
-            //this.objectToWorld = new Vector3()
+            this.objectToWorld = new Vector3(3, 3, 3);
         }
-        internal Matrix4 ObjectFromParentToWorld()
+        internal Matrix4 GetLocation()
         {
             Matrix4 finalMatrix = objectToParent;
             Node tempNode = this;

@@ -46,7 +46,7 @@ namespace Template
 
             // load teapot
             teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
-            floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
+            floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(10.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
             // initialize stopwatch
             timer.Reset();
             timer.Start();
@@ -61,7 +61,7 @@ namespace Template
 
             worldNode.children.Add(new Node(teapot));
             worldNode.children.Add(new Node(floor));
-            worldNode.children.Add(new Light(new Vector3(1, 1, 1), new Matrix4(1, 0, 0, 3, 0, 1, 0, 3, 0, 0, 1, 3, 0, 0, 0, 1), lights));
+            worldNode.children.Add(new Light(new Vector3(150, 150, 150), new Matrix4(1, 0, 0, 10, 0, 1, 0, 10, 0, 0, 1, 10, 0, 0, 0, 1), lights));
         }
 
         // tick for background surface
