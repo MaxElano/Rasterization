@@ -45,7 +45,7 @@ void main()
     
     //PHONG
     outputColor.xyz = vec3(0, 0, 0);
-    int n = 2;
+    int n = 20;
     vec3 speculalColor = vec3(0.8, 0.8, 0.8);
 
     vec3 diffuseColor = texture(diffuseTexture, uv).rgb;                        //texture lookup
@@ -109,7 +109,8 @@ void main()
 
             if(incomingAngleD < lightAngle)                                                  //This is meant for spotlights, only calculate color if it hits the spotlight from the right angle
             {
-                float attenuation = 1.0 / dot(L, L);                                        //distance attenuation
+                //float attenuation = 1.0 / dot(L, L);                                        //distance attenuation
+                float attenuation = 1.0 / (L.length * L.length);                              //distance attenuation
                 vec3 R = normalize(-L - 2 * dot(normalize(-L), normalize(normalWorld.xyz)) * normalize(normalWorld.xyz));
                 vec3 V = normalize(positionWorld.xyz - cameraPositionWorld);
                 float power = pow(max(0, dot(-V, R)), n);
@@ -117,7 +118,6 @@ void main()
                 vec3 b = diffuseColor * max(0, dot(normalize(normalWorld.xyz), normalize(L)));
                 vec3 c = speculalColor * power;
             
-
                 outputColor.xyz += a * (b + c);
             }
         }
