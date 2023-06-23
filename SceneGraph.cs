@@ -61,11 +61,16 @@ namespace INFOGR2023TemplateP2
     {
         internal Vector3 color;
         internal Vector4 location;
+        internal float angleInDegrees;
+        internal Vector3 shineAtDirection;
         internal Light(Vector3 color, Vector3 location, List<Light> list, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
         {
             list.Add(this);
             this.color = color;
             this.location = new Vector4(location.X, location.Y, location.Z, 0);
+            angleInDegrees = 180; //Full rotation, because you can go 180` both ways
+            shineAtDirection = new Vector3(1, 1, 1);
+            this.shineAtDirection.Normalize();
         }
         internal void SetLocation()
         {
@@ -80,6 +85,15 @@ namespace INFOGR2023TemplateP2
         }
     }
 
+    public class Spotlight : Light
+    {
+        internal Spotlight(Vector3 color, Vector3 location, float angleInDegrees, Vector3 shineAtDirection, List<Light> list, Mesh mesh = null, bool isWorldNode = false) : base(color, location, list, mesh, isWorldNode)
+        {
+            this.angleInDegrees = angleInDegrees;
+            this.shineAtDirection = shineAtDirection;
+            this.shineAtDirection.Normalize();
+        }
+    }
     //Scene Graph Lecture Tips:
     //1. Follow the convention name+from+to (ex. teapotObjectToWorld)
 }

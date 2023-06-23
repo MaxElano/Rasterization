@@ -87,44 +87,60 @@ namespace Template
                 light1Location = (objectToWorld * lights[0].location);
                 GL.Uniform4(shader.uniform_lightPosition1, ref light1Location);
                 GL.Uniform3(shader.uniform_lightColor1, ref lights[0].color);
+                GL.Uniform3(shader.uniform_lightShineAt1, ref lights[0].shineAtDirection);
+                GL.Uniform1(shader.uniform_lightAngle1, lights[0].angleInDegrees);
             }
             else
             {
                 GL.Uniform4(shader.uniform_lightPosition1, ref nullVector4);
                 GL.Uniform3(shader.uniform_lightColor1, ref nullVector3);
+                GL.Uniform3(shader.uniform_lightShineAt1, ref nullVector3);
+                GL.Uniform1(shader.uniform_lightAngle1, 0f);
             }
             if (lights.Count > 1)
             {
                 light2Location = (objectToWorld * lights[1].location);
                 GL.Uniform4(shader.uniform_lightPosition2, ref light2Location);
                 GL.Uniform3(shader.uniform_lightColor2, ref lights[1].color);
+                GL.Uniform3(shader.uniform_lightShineAt2, ref lights[1].shineAtDirection);
+                GL.Uniform1(shader.uniform_lightAngle2, lights[1].angleInDegrees);
             }
             else
             {
                 GL.Uniform4(shader.uniform_lightPosition2, ref nullVector4);
                 GL.Uniform3(shader.uniform_lightColor2, ref nullVector3);
+                GL.Uniform3(shader.uniform_lightShineAt2, ref nullVector3);
+                GL.Uniform1(shader.uniform_lightAngle2, 0f);
             }
             if (lights.Count > 2)
             {
                 light3Location = (objectToWorld * lights[2].location);
                 GL.Uniform4(shader.uniform_lightPosition3, ref light3Location);
                 GL.Uniform3(shader.uniform_lightColor3, ref lights[2].color);
+                GL.Uniform3(shader.uniform_lightShineAt3, ref lights[2].shineAtDirection);
+                GL.Uniform1(shader.uniform_lightAngle3, lights[2].angleInDegrees);
             }
             else
             {
                 GL.Uniform4(shader.uniform_lightPosition3, ref nullVector4);
                 GL.Uniform3(shader.uniform_lightColor3, ref nullVector3);
+                GL.Uniform3(shader.uniform_lightShineAt3, ref nullVector3);
+                GL.Uniform1(shader.uniform_lightAngle3, 0f);
             }
             if (lights.Count > 3)
             {
                 light4Location = (objectToWorld * lights[3].location);
                 GL.Uniform4(shader.uniform_lightPosition4, ref light4Location);
                 GL.Uniform3(shader.uniform_lightColor4, ref lights[3].color);
+                GL.Uniform3(shader.uniform_lightShineAt4, ref lights[3].shineAtDirection);
+                GL.Uniform1(shader.uniform_lightAngle4, lights[3].angleInDegrees);
             }
             else
             {
                 GL.Uniform4(shader.uniform_lightPosition4, ref nullVector4);
                 GL.Uniform3(shader.uniform_lightColor4, ref nullVector3);
+                GL.Uniform3(shader.uniform_lightShineAt4, ref nullVector3);
+                GL.Uniform1(shader.uniform_lightAngle4, 0f);
             }
 
 
