@@ -23,13 +23,15 @@ namespace Template
         Camera camera;
         GameWindow window;
         public List<Light> lights;
+        readonly Stopwatch buttonTimer = new(); // timer for checking if a button was recently pressed
+        int buttonPressInterval = 1000;
 
         // constructor
         public MyApplication(Surface screen, OpenTKApp window)
         {
+            buttonTimer.Start();
             this.screen = screen;
             worldNode = new Node(null, true);
-
             camera = new Camera();
             this.window = window;
             lights= new List<Light>();
@@ -64,7 +66,9 @@ namespace Template
             //worldNode.children.Add(new Light(new Vector3(2000, 0, 0), new Vector3(5, 1, -5), lights));
             //worldNode.children.Add(new Light(new Vector3(0, 2000, 0), new Vector3(-5, 1, 0), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 2000, 2000), new Vector3(5, 5, 0), lights));
-            worldNode.children.Add(new Spotlight(new Vector3(2, 2, 2), new Vector3(0, 20, 0), 20f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(2, 0, 0), new Vector3(-5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(0, 2, 0), new Vector3(0, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(0, 0, 2), new Vector3(0, 20, 5), 10f, new Vector3(0, 1, 0), lights));
         }
 
         // tick for background surface
@@ -75,6 +79,11 @@ namespace Template
 
             //Update Camera position and angle
             camera.Update(window);
+            
+            if (lights.Count > 0)
+            {
+                LightsUpdate();
+            }
         }
 
         // tick for OpenGL rendering code
@@ -128,6 +137,32 @@ namespace Template
                     //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
             }
+        }
+
+        internal void LightsUpdate()
+        {
+            buttonTimer.Stop();
+            if(lights.Count > 0 && window.IsKeyDown(Keys.D1) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            {
+                lights[0].SwitchOnOff();
+                buttonTimer.Reset();
+            }
+            if (lights.Count > 1 && window.IsKeyDown(Keys.D2) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            {
+                lights[1].SwitchOnOff();
+                buttonTimer.Reset();
+            }
+            if (lights.Count > 2 && window.IsKeyDown(Keys.D3) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            {
+                lights[2].SwitchOnOff();
+                buttonTimer.Reset();
+            }
+            if (lights.Count > 3 && window.IsKeyDown(Keys.D4) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            {
+                lights[3].SwitchOnOff();
+                buttonTimer.Reset();
+            }
+            buttonTimer.Start();
         }
     }
 }

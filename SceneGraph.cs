@@ -59,14 +59,17 @@ namespace INFOGR2023TemplateP2
 
     public class Light : Node
     {
+        internal Vector3 originalLightColor;
         internal Vector3 color;
         internal Vector4 location;
         internal float angleInDegrees;
         internal Vector3 shineAtDirection;
+        bool lightOn = true;
         internal Light(Vector3 color, Vector3 location, List<Light> list, Mesh mesh = null, bool isWorldNode = false) : base(mesh, isWorldNode) 
         {
             list.Add(this);
-            this.color = color;
+            this.originalLightColor = color;
+            this.color = originalLightColor;
             this.location = new Vector4(location.X, location.Y, location.Z, 0);
             angleInDegrees = 180; //Full rotation, because you can go 180` both ways
             shineAtDirection = new Vector3(1, 1, 1);
@@ -82,6 +85,15 @@ namespace INFOGR2023TemplateP2
                 tempNode = tempNode.parent;
             }
             location = finalMatrix * location;
+        }
+        internal void SwitchOnOff()
+        {
+            if (lightOn)
+                color = new Vector3(0, 0, 0);
+            else
+                color = originalLightColor;
+            
+            lightOn = !lightOn;
         }
     }
 
