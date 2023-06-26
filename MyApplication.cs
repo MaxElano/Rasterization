@@ -24,12 +24,18 @@ namespace Template
         GameWindow window;
         public List<Light> lights;
         readonly Stopwatch buttonTimer = new(); // timer for checking if a button was recently pressed
-        int buttonPressInterval = 1000;
+        int buttonPressInterval = 600;
+        bool showHelp = true;
+        int textInterval = 18;
+        int distanceCounter = 1;
+        Light selectedLight;
+        float lightMoveSpeed = 1;
+        float lightColorChangeSpeed = 0.01f;
 
         // constructor
         public MyApplication(Surface screen, OpenTKApp window)
         {
-            buttonTimer.Start();
+            //buttonTimer.Start();
             this.screen = screen;
             worldNode = new Node(null, true);
             camera = new Camera();
@@ -62,7 +68,7 @@ namespace Template
 
             worldNode.children.Add(new Node(teapot));
             worldNode.children.Add(new Node(floor));
-            //worldNode.children.Add(new Light(new Vector3(0, 0, 2000), new Vector3(5, 1, 5), lights));
+            //worldNode.children.Add(new Light(new Vector3(2, 2, 2), new Vector3(5, 1, 5), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 0, 0), new Vector3(5, 1, -5), lights));
             //worldNode.children.Add(new Light(new Vector3(0, 2000, 0), new Vector3(-5, 1, 0), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 2000, 2000), new Vector3(5, 5, 0), lights));
@@ -84,6 +90,8 @@ namespace Template
             {
                 LightsUpdate();
             }
+            if(showHelp)
+                ShowHelp();
         }
 
         // tick for OpenGL rendering code
@@ -142,27 +150,97 @@ namespace Template
         internal void LightsUpdate()
         {
             buttonTimer.Stop();
-            if(lights.Count > 0 && window.IsKeyDown(Keys.D1) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            //Choosing different lights
+            if (lights.Count > 0 && window.IsKeyDown(Keys.D1))
             {
-                lights[0].SwitchOnOff();
-                buttonTimer.Reset();
+                selectedLight = lights[0];
             }
-            if (lights.Count > 1 && window.IsKeyDown(Keys.D2) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            else if (lights.Count > 1 && window.IsKeyDown(Keys.D2))
             {
-                lights[1].SwitchOnOff();
-                buttonTimer.Reset();
+                selectedLight = lights[1];
             }
-            if (lights.Count > 2 && window.IsKeyDown(Keys.D3) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            else if (lights.Count > 2 && window.IsKeyDown(Keys.D3))
             {
-                lights[2].SwitchOnOff();
-                buttonTimer.Reset();
+                selectedLight = lights[2];
             }
-            if (lights.Count > 3 && window.IsKeyDown(Keys.D4) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+            else if (lights.Count > 3 && window.IsKeyDown(Keys.D4))
             {
-                lights[3].SwitchOnOff();
-                buttonTimer.Reset();
+                selectedLight = lights[3];
+            }
+
+            //Changing aspects of the selected light
+            if (selectedLight != null)
+            {
+                if (window.IsKeyDown(Keys.Space) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
+                {
+                    selectedLight.SwitchOnOff();
+                    buttonTimer.Reset();
+                }
+                else if (window.IsKeyDown(Keys.I)) //Forward (from starting)
+                {
+                    selectedLight.location.Z -= lightMoveSpeed;
+                }
+                else if (window.IsKeyDown(Keys.K)) //Back (from starting)
+                {
+                    selectedLight.location.Z += lightMoveSpeed;
+                }
+                else if (window.IsKeyDown(Keys.O)) //Up
+                {
+                    selectedLight.location.Y += lightMoveSpeed;
+                }
+                else if (window.IsKeyDown(Keys.U)) //Down
+                {
+                    selectedLight.location.Y -= lightMoveSpeed;
+                }
+                else if (window.IsKeyDown(Keys.J)) //Left (from starting)
+                {
+                    selectedLight.location.X -= lightMoveSpeed;
+                }
+                else if (window.IsKeyDown(Keys.L)) //Right (from starting)
+                {
+                    selectedLight.location.X += lightMoveSpeed;
+                }
+                else if (window.IsKeyDown(Keys.R)) //Red Brighter
+                {
+                    selectedLight.color.X += lightColorChangeSpeed;
+                }
+                else if (window.IsKeyDown(Keys.F)) //Red Weaker
+                {
+                    selectedLight.color.X -= lightColorChangeSpeed;
+                }
+                else if (window.IsKeyDown(Keys.T)) //Green Brighter
+                {
+                    selectedLight.color.Y += lightColorChangeSpeed;
+                }
+                else if (window.IsKeyDown(Keys.G)) //Green Weaker
+                {
+                    selectedLight.color.Y -= lightColorChangeSpeed;
+                }
+                else if (window.IsKeyDown(Keys.Y)) //Blue Brighter
+                {
+                    selectedLight.color.Z += lightColorChangeSpeed;
+                }
+                else if (window.IsKeyDown(Keys.H)) //Red Weaker
+                {
+                    selectedLight.color.Z -= lightColorChangeSpeed;
+                }
             }
             buttonTimer.Start();
+        }
+        
+        //Shows the controls on the side of the screen
+        private void ShowHelp()
+        {
+            distanceCounter = 1;
+            screen.Print("Movement Controls", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            distanceCounter++;
+            screen.Print("Move: W/A/S/D", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            distanceCounter++;
+            screen.Print("Up: E", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            distanceCounter++;
+            screen.Print("Down: Q", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            distanceCounter++;
+            screen.Print("Look Around: Up/Left/Down/Right", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
         }
     }
 }

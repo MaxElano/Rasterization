@@ -89,7 +89,10 @@ namespace INFOGR2023TemplateP2
         internal void SwitchOnOff()
         {
             if (lightOn)
+            {
+                originalLightColor = color;
                 color = new Vector3(0, 0, 0);
+            }  
             else
                 color = originalLightColor;
             
