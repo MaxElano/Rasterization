@@ -29,8 +29,9 @@ namespace Template
         int textInterval = 18;
         int distanceCounter = 1;
         Light selectedLight;
-        float lightMoveSpeed = 1;
+        float lightMoveSpeed = 0.25f;
         float lightColorChangeSpeed = 0.01f;
+        Vector4 lightMoveForwardDirection, lightMoveLeftDirection;
 
         // constructor
         public MyApplication(Surface screen, OpenTKApp window)
@@ -54,7 +55,8 @@ namespace Template
 
             // load teapot
             teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
-            floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(10.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
+            floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(20.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
+            
             // initialize stopwatch
             timer.Reset();
             timer.Start();
@@ -66,15 +68,18 @@ namespace Template
             if (useRenderTarget) target = new RenderTarget(screen.width, screen.height);
             quad = new ScreenQuad();
 
-            worldNode.children.Add(new Node(teapot));
-            worldNode.children.Add(new Node(floor));
+            Node floorNode = new Node(floor);
+
+            worldNode.AddChild(new Node(teapot));
+            worldNode.AddChild(floorNode);
             //worldNode.children.Add(new Light(new Vector3(2, 2, 2), new Vector3(5, 1, 5), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 0, 0), new Vector3(5, 1, -5), lights));
             //worldNode.children.Add(new Light(new Vector3(0, 2000, 0), new Vector3(-5, 1, 0), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 2000, 2000), new Vector3(5, 5, 0), lights));
             worldNode.children.Add(new Spotlight(new Vector3(2, 0, 0), new Vector3(-5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
-            worldNode.children.Add(new Spotlight(new Vector3(0, 2, 0), new Vector3(0, 20, 0), 10f, new Vector3(0, 1, 0), lights));
-            worldNode.children.Add(new Spotlight(new Vector3(0, 0, 2), new Vector3(0, 20, 5), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(0, 2, 2), new Vector3(0, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(2, 0, 2), new Vector3(0, 20, -5), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(2, 2, 0), new Vector3(5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
         }
 
         // tick for background surface
@@ -166,10 +171,22 @@ namespace Template
             {
                 selectedLight = lights[3];
             }
+            else if (window.IsKeyDown(Keys.D0))
+            {
+                selectedLight = null;
+            }
 
             //Changing aspects of the selected light
             if (selectedLight != null)
             {
+                lightMoveForwardDirection = new Vector4(camera.forwardVector.X, 0, camera.forwardVector.Z, 0);
+                lightMoveLeftDirection = new Vector4(camera.leftVector.X, 0, camera.leftVector.Z, 0);
+                lightMoveForwardDirection.Normalize();
+                lightMoveLeftDirection.Normalize();
+                lightMoveLeftDirection.Normalize();
+                lightMoveForwardDirection *= lightMoveSpeed;
+                lightMoveLeftDirection *= lightMoveSpeed;
+
                 if (window.IsKeyDown(Keys.Space) && buttonTimer.ElapsedMilliseconds >= buttonPressInterval)
                 {
                     selectedLight.SwitchOnOff();
@@ -177,13 +194,11 @@ namespace Template
                 }
                 else if (window.IsKeyDown(Keys.I)) //Forward (from starting)
                 {
-                    selectedLight.location.X -= lightMoveSpeed * camera.forwardVector.X;
-                    selectedLight.location.Z -= lightMoveSpeed * camera.forwardVector.Z;
+                    selectedLight.location -= lightMoveForwardDirection;
                 }
                 else if (window.IsKeyDown(Keys.K)) //Back (from starting)
                 {
-                    selectedLight.location.X += lightMoveSpeed * camera.forwardVector.X;
-                    selectedLight.location.Z += lightMoveSpeed * camera.forwardVector.Z;
+                    selectedLight.location += lightMoveForwardDirection;
                 }
                 else if (window.IsKeyDown(Keys.O)) //Up
                 {
@@ -195,13 +210,11 @@ namespace Template
                 }
                 else if (window.IsKeyDown(Keys.J)) //Left (from starting)
                 {
-                    selectedLight.location.X -= lightMoveSpeed * camera.leftVector.X;
-                    selectedLight.location.Z -= lightMoveSpeed * camera.leftVector.Z;
+                    selectedLight.location -= lightMoveLeftDirection;
                 }
                 else if (window.IsKeyDown(Keys.L)) //Right (from starting)
                 {
-                    selectedLight.location.X += lightMoveSpeed * camera.leftVector.X;
-                    selectedLight.location.Z += lightMoveSpeed * camera.leftVector.Z;
+                    selectedLight.location += lightMoveLeftDirection;
                 }
                 else if (window.IsKeyDown(Keys.R)) //Red Brighter
                 {
@@ -229,21 +242,6 @@ namespace Template
                 }
             }
             buttonTimer.Start();
-        }
-
-        //Shows the controls on the side of the screen
-        internal void ShowHelp()
-        {
-            distanceCounter = 1;
-            screen.Print("Movement Controls", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
-            distanceCounter++;
-            screen.Print("Move: W/A/S/D", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
-            distanceCounter++;
-            screen.Print("Up: E", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
-            distanceCounter++;
-            screen.Print("Down: Q", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
-            distanceCounter++;
-            screen.Print("Look Around: Up/Left/Down/Right", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
         }
     }
 }
