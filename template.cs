@@ -187,6 +187,7 @@ namespace Template
             }
             // tell OpenTK we're done rendering
             SwapBuffers();
+            
         }
         public static void Main()
         {

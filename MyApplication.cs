@@ -90,8 +90,6 @@ namespace Template
             {
                 LightsUpdate();
             }
-            if(showHelp)
-                ShowHelp();
         }
 
         // tick for OpenGL rendering code
@@ -145,6 +143,7 @@ namespace Template
                     //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
             }
+
         }
 
         internal void LightsUpdate()
@@ -178,11 +177,13 @@ namespace Template
                 }
                 else if (window.IsKeyDown(Keys.I)) //Forward (from starting)
                 {
-                    selectedLight.location.Z -= lightMoveSpeed;
+                    selectedLight.location.X -= lightMoveSpeed * camera.forwardVector.X;
+                    selectedLight.location.Z -= lightMoveSpeed * camera.forwardVector.Z;
                 }
                 else if (window.IsKeyDown(Keys.K)) //Back (from starting)
                 {
-                    selectedLight.location.Z += lightMoveSpeed;
+                    selectedLight.location.X += lightMoveSpeed * camera.forwardVector.X;
+                    selectedLight.location.Z += lightMoveSpeed * camera.forwardVector.Z;
                 }
                 else if (window.IsKeyDown(Keys.O)) //Up
                 {
@@ -194,11 +195,13 @@ namespace Template
                 }
                 else if (window.IsKeyDown(Keys.J)) //Left (from starting)
                 {
-                    selectedLight.location.X -= lightMoveSpeed;
+                    selectedLight.location.X -= lightMoveSpeed * camera.leftVector.X;
+                    selectedLight.location.Z -= lightMoveSpeed * camera.leftVector.Z;
                 }
                 else if (window.IsKeyDown(Keys.L)) //Right (from starting)
                 {
-                    selectedLight.location.X += lightMoveSpeed;
+                    selectedLight.location.X += lightMoveSpeed * camera.leftVector.X;
+                    selectedLight.location.Z += lightMoveSpeed * camera.leftVector.Z;
                 }
                 else if (window.IsKeyDown(Keys.R)) //Red Brighter
                 {
@@ -227,20 +230,20 @@ namespace Template
             }
             buttonTimer.Start();
         }
-        
+
         //Shows the controls on the side of the screen
-        private void ShowHelp()
+        internal void ShowHelp()
         {
             distanceCounter = 1;
-            screen.Print("Movement Controls", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            screen.Print("Movement Controls", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
             distanceCounter++;
-            screen.Print("Move: W/A/S/D", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            screen.Print("Move: W/A/S/D", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
             distanceCounter++;
-            screen.Print("Up: E", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            screen.Print("Up: E", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
             distanceCounter++;
-            screen.Print("Down: Q", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            screen.Print("Down: Q", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
             distanceCounter++;
-            screen.Print("Look Around: Up/Left/Down/Right", 10, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
+            screen.Print("Look Around: Up/Left/Down/Right", 2, distanceCounter * textInterval, 255 * 256 * 256 + 255 * 256 + 255);
         }
     }
 }

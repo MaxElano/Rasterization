@@ -26,11 +26,11 @@ namespace INFOGR2023TemplateP2
         public float yaw = 0;
         public float pitch = 90f;
         public float FieldOfView = 60;
-
+        public Vector3 forwardVector;
+        public Vector3 leftVector;
         public float Yaw { get { return MathHelper.DegreesToRadians(yaw); } }
         public float Pitch { get { return MathHelper.DegreesToRadians(pitch); } }
         public float FOV { get { return MathHelper.DegreesToRadians(FieldOfView); } }
-
 
         internal Camera()
         {
@@ -104,8 +104,10 @@ namespace INFOGR2023TemplateP2
 
             Vector3 Left = Vector3.Transform(X, qPitch);
             Left = Vector3.Transform(Left, qYaw);
+            leftVector = Left;
             Vector3 Forward = Vector3.Transform(Z, qPitch);
             Forward = Vector3.Transform(Forward, qYaw);
+            forwardVector = Forward;
 
             Left.Normalize();
             Forward.Normalize();
