@@ -52,7 +52,6 @@ namespace Template
             grass = new Texture("../../../assets/grass.png");
             sky = new Texture("../../../assets/wierd.png");
 
-
             // load teapot
             teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
             floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(20.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
