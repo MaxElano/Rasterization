@@ -8,6 +8,7 @@ in vec2 vertexUV;					// vertex uv texture coordinates
 // shader output, will be interpolated from vertices to fragments
 out vec2 uv;						// vertex uv texture coordinates (pass-through)
 out vec2 positionFromBottomLeft;	// vertex position on the screen, with (0, 0) at the bottom left and (1, 1) at the top right
+out vec2 positionFromCenter;
 
 // vertex shader
 void main()
@@ -19,4 +20,5 @@ void main()
 	uv = vertexUV;
 
 	positionFromBottomLeft = 0.5 * vertexPositionObject.xy + 0.5;
+	positionFromCenter = vertexPositionObject.xy;
 }

@@ -3,6 +3,7 @@
 // shader inputs
 in vec2 uv;						// fragment uv texture coordinates
 in vec2 positionFromBottomLeft;
+in vec2 positionFromCenter;
 uniform sampler2D pixels;		// input texture (1st pass render target)
 
 // shader output
@@ -15,6 +16,7 @@ void main()
 	outputColor = texture(pixels, uv).rgb;
 
 	// apply dummy postprocessing effect
-	float dist = length(positionFromBottomLeft);
-	//outputColor *= sin(dist * 50.0) * 0.25 + 0.75;
+	float dist = length(positionFromCenter);
+	outputColor *= -sin(dist * 0.3) * 2 + 1;
+
 }
