@@ -71,15 +71,15 @@ namespace Template
 
             worldNode.AddChild(new Node(teapot));
             worldNode.AddChild(floorNode);
-            //worldNode.children.Add(new Light(new Vector3(2, 2, 2), new Vector3(5, 1, 5), lights));
+            worldNode.children.Add(new Light(new Vector3(2, 2, 2), new Vector3(5, 1, 5), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 0, 0), new Vector3(5, 1, -5), lights));
             //worldNode.children.Add(new Light(new Vector3(0, 2000, 0), new Vector3(-5, 1, 0), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 2000, 2000), new Vector3(5, 5, 0), lights));
             //worldNode.children.Add(new Spotlight(new Vector3(2, 0, 0), new Vector3(-5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
-            worldNode.children.Add(new Spotlight(new Vector3(0, 2, 2), new Vector3(0, 20, 0), 10f, new Vector3(0, 1, 0), lights));
-            worldNode.children.Add(new Spotlight(new Vector3(2, 0, 2), new Vector3(0, 20, -5), 10f, new Vector3(0, 1, 0), lights));
-            worldNode.children.Add(new Spotlight(new Vector3(2, 2, 0), new Vector3(5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
-        }
+            //worldNode.children.Add(new Spotlight(new Vector3(0, 2, 2), new Vector3(0, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+            //worldNode.children.Add(new Spotlight(new Vector3(2, 0, 2), new Vector3(0, 20, -5), 10f, new Vector3(0, 1, 0), lights));
+            //worldNode.children.Add(new Spotlight(new Vector3(2, 2, 0), new Vector3(5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+        }   
 
         // tick for background surface
         public void Tick()
