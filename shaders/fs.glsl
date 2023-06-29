@@ -126,7 +126,7 @@ void main()
     vec3 d;
     if(ambientCounter > 0)
     {
-        vec3 ambientLightFinal = (ambientLight / ambientCounter) * 0.000000000006;
+        vec3 ambientLightFinal = (ambientLight / ambientCounter) * 0.1;
         d = ambientLightFinal * diffuseColor;
     }
     else
