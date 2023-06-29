@@ -6,6 +6,8 @@ in vec4 normalWorld;                // fragment normal in World Space
 in vec2 uv;                         // fragment uv texture coordinates
 uniform sampler2D diffuseTexture;	// texture sampler
 
+uniform samplerCube cubeMap;
+
 uniform vec4 lightPosition1;
 uniform vec3 lightColor1;
 uniform vec3 lightShineAt1;

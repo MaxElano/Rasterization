@@ -1,10 +1,12 @@
 ﻿using System.Globalization;
 using System.Runtime.InteropServices;
+using INFOGR2023TemplateP2;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SixLabors.ImageSharp.PixelFormats;
 
 // The template provides you with a window which displays a 'linear frame buffer', i.e.
 // a 1D array of pixels that represents the graphical contents of the window.
