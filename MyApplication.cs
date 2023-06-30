@@ -50,7 +50,7 @@ namespace Template
             sky = new Texture("../../../assets/wierd.png");
 
             // load teapot
-            teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 30), wood);
+            teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), wood);
             teapot2 = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(1, 1, 0), 10) * Matrix4.CreateTranslation(new Vector3(10, 10, 0)), wood);
             floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(20.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), brick);
             
@@ -105,19 +105,9 @@ namespace Template
             timer.Start();
 
             // prepare matrix for vertex shader
-
-            //Matrix4 teapotObjectToWorld = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a); OLD
-            //Matrix4 floorObjectToWorld = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);  OLD
-
             Matrix4 worldToCamera = Matrix4.CreateTranslation(camera.location) * (Matrix4.CreateFromAxisAngle(camera.Y, camera.Pitch) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), camera.Yaw));
 
             Matrix4 cameraToScreen = Matrix4.CreatePerspectiveFieldOfView(camera.FOV, (float)screen.width/screen.height, .1f, 1000);
-
-            
-
-            // update rotation
-            a += 0.001f * frameDuration;
-            if (a > 2 * MathF.PI) a -= 2 * MathF.PI;
 
             if (useRenderTarget && target != null && quad != null)
             {
@@ -125,11 +115,9 @@ namespace Template
                 target.Bind();
 
                 // render scene to render target
-                if (shader != null /*&& wood != null*/)
+                if (shader != null)
                 {
                     worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights, camera.location);
-                    //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
-                    //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
 
                 // render quad
@@ -140,11 +128,9 @@ namespace Template
             else
             {
                 // render scene directly to the screen
-                if (shader != null /*&& wood != null*/)
+                if (shader != null)
                 {
                     worldNode.Render(worldToCamera * cameraToScreen, Matrix4.Identity, shader, lights, camera.location);
-                    //teapot?.Render(shader, teapotObjectToWorld * worldToCamera * cameraToScreen, teapotObjectToWorld, wood); OLD
-                    //floor?.Render(shader, floorObjectToWorld * worldToCamera * cameraToScreen, floorObjectToWorld, wood); OLD
                 }
             }
 
