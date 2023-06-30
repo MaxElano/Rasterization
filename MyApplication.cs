@@ -10,7 +10,7 @@ namespace Template
     {
         // member variables
         public Surface screen;                  // background surface for printing etc.
-        Mesh? teapot, floor;                    // meshes to draw using OpenGL
+        Mesh? teapot, teapot2, floor;           // meshes to draw using OpenGL
         float a = 0;                            // teapot rotation angle
         readonly Stopwatch timer = new();       // timer for measuring frame duration
         Shader? shader;                         // shader to use for rendering
@@ -25,9 +25,6 @@ namespace Template
         public List<Light> lights;
         readonly Stopwatch buttonTimer = new(); // timer for checking if a button was recently pressed
         int buttonPressInterval = 600;
-        bool showHelp = true;
-        int textInterval = 18;
-        int distanceCounter = 1;
         Light selectedLight;
         float lightMoveSpeed = 0.25f;
         float lightColorChangeSpeed = 0.01f;
@@ -53,8 +50,9 @@ namespace Template
             sky = new Texture("../../../assets/wierd.png");
 
             // load teapot
-            teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
-            floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(20.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a), wood);
+            teapot = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 30), wood);
+            teapot2 = new Mesh("../../../assets/teapot.obj", Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(1, 1, 0), 10) * Matrix4.CreateTranslation(new Vector3(10, 10, 0)), wood);
+            floor = new Mesh("../../../assets/floor.obj", Matrix4.CreateScale(20.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0), brick);
             
             // initialize stopwatch
             timer.Reset();
@@ -68,17 +66,19 @@ namespace Template
             quad = new ScreenQuad();
 
             Node floorNode = new Node(floor);
-
-            worldNode.AddChild(new Node(teapot));
+            Node teapotNode = new Node(teapot);
+            Node teapot2Node = new Node(teapot2);
+            worldNode.AddChild(teapotNode);
             worldNode.AddChild(floorNode);
+            teapotNode.AddChild(teapot2Node);
             worldNode.children.Add(new Light(new Vector3(2, 2, 2), new Vector3(5, 1, 5), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 0, 0), new Vector3(5, 1, -5), lights));
             //worldNode.children.Add(new Light(new Vector3(0, 2000, 0), new Vector3(-5, 1, 0), lights));
             //worldNode.children.Add(new Light(new Vector3(2000, 2000, 2000), new Vector3(5, 5, 0), lights));
-            //worldNode.children.Add(new Spotlight(new Vector3(2, 0, 0), new Vector3(-5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(2, 0, 0), new Vector3(-5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
             //worldNode.children.Add(new Spotlight(new Vector3(0, 2, 2), new Vector3(0, 20, 0), 10f, new Vector3(0, 1, 0), lights));
-            //worldNode.children.Add(new Spotlight(new Vector3(2, 0, 2), new Vector3(0, 20, -5), 10f, new Vector3(0, 1, 0), lights));
-            //worldNode.children.Add(new Spotlight(new Vector3(2, 2, 0), new Vector3(5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(2, 0, 2), new Vector3(0, 20, -5), 10f, new Vector3(0, 1, 0), lights));
+            worldNode.children.Add(new Spotlight(new Vector3(2, 2, 0), new Vector3(5, 20, 0), 10f, new Vector3(0, 1, 0), lights));
         }   
 
         // tick for background surface

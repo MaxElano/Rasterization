@@ -34,15 +34,6 @@ out vec4 outputColor;
 // fragment shader
 void main()
 {
-    
-    //DIFFUSE
-    //vec3 L = lightPosition - positionWorld.xyz;                                 //Vector from surface to light, unnormalized!
-    //float attenuation = 1.0 / dot(L, L);                                        //distance attenuation
-    //float NdotL = max(0, dot(normalize(normalWorld.xyz), normalize(L)));        //incoming angle attenuation
-    //vec3 diffuseColor = texture(diffuseTexture, uv).rgb;                        //texture lookup
-    //outputColor = vec4(lightColor * diffuseColor * attenuation * NdotL, 1.0);   //complete diffuse shading, A = 1.0 is opaque
-
-    
     //PHONG
     outputColor.xyz = vec3(0, 0, 0);
     int n = 20;
@@ -134,8 +125,4 @@ void main()
 
 
     outputColor.xyz += d;
-
-    //outputColor = lightColor * attenuation * (diffuseColor * max(0, dot(normalize(normalWorld.xyz), normalize(L))) + vec3(0.8,0.8,0.8) * pow(max(0, dot(V, R)), n)) + ambientLight * diffuseColor;
-
-    //outputColor = texture(diffuseTexture, uv) + 0.5 * normalWorld;
 }
